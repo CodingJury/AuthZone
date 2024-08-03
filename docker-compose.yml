@@ -1,0 +1,20 @@
+version: '3.8'
+services:
+  dev-db-service:
+    image: postgres:13
+    environment:
+      POSTGRES_USER: dev_db_user_dhananjay
+      POSTGRES_PASSWORD: dev_db_pass_123
+      POSTGRES_DB: dev_db_auth_zone
+    networks:
+      - auth_zone_networks
+    ports:
+      - 5432:5432
+    volumes:
+      - postgres-auth-zone-data:/var/lib/postgresql/data
+
+networks:
+  auth_zone_networks:
+
+volumes:
+  postgres-auth-zone-data:

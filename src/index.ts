@@ -2,6 +2,7 @@ import dotenv from "dotenv";
 import express from "express";
 
 import authRoute from "./routes/Auth.route"
+import emailRoute from "./routes/Email.route"
 import { globalErrorMiddleare } from "./middlewares/Error.middleware";
 
 dotenv.config()
@@ -15,6 +16,7 @@ app.get('/', (req, res) => {
 
 // ROUTER
 app.use("/auth", authRoute)
+app.use("/email", emailRoute)
 
 // GLOBAL ERROR MIDDLEWARE
 app.use(globalErrorMiddleare)

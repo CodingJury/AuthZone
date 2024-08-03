@@ -1,5 +1,6 @@
 import { Response } from "express";
 import { HttpStatus } from "./HttpStatus.helper";
+import { parseStack } from "../formats/ErrorStack.format";
 
 export function handleSuccess(
   res: Response, 
@@ -7,7 +8,7 @@ export function handleSuccess(
   data: any = null, 
   status: HttpStatus = HttpStatus.OK
 ) {
-  res.status(status).json({
+  return res.status(status).json({
     status: 'success',
     message,
     data
@@ -20,18 +21,19 @@ export function handleError(
   error: any = null,
   status: HttpStatus = HttpStatus.INTERNAL_SERVER_ERROR,
 ) {
-
-  console.log('------ERROR START-------')
-  if (process.env.NODE_ENV !== 'production') {
-    console.error(error);
-  } else {
-    console.error(error.message);
+  if(error) {
+    console.log('------ERROR START-------')
+    if (process.env.NODE_ENV !== 'production') {
+      console.error(error.stack);
+    } else {
+      console.error(error.message);
+    }
+    console.log('-------ERROR END--------')
   }
-  console.log('-------ERROR END--------')
 
-  res.status(status).json({
+  return res.status(status).json({
     status: "error",
     message,
-    ...(process.env.NODE_ENV !== 'production' && { error })
+    ...((process.env.NODE_ENV !== 'production' && error) ? { stack: parseStack(error).stack } : { description: error?.message })
   })
 }

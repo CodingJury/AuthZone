@@ -11,3 +11,9 @@ export enum HttpStatus {
   INTERNAL_SERVER_ERROR = 500,
   SERVICE_UNAVAILABLE = 503,
 }
+
+// Type for the values of the enum
+export type HttpStatusValue = typeof HttpStatus[keyof typeof HttpStatus];
+
+// Type for the keys of the enum
+export type HttpStatusKey = keyof typeof HttpStatus;
